@@ -1,0 +1,4585 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#f7efe3">
+
+<title>DC Circuit Engineer</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f7efe3;
+  color:#342d29;
+}
+
+body{
+  min-height:100vh;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* =========================
+   GENERAL
+========================= */
+
+.screen{
+  min-height:100vh;
+  padding:18px;
+}
+
+.container{
+  width:min(1100px,100%);
+  margin:auto;
+}
+
+.card{
+  background:#fffaf3;
+  border:1px solid #eadccd;
+  border-radius:22px;
+  padding:20px;
+  box-shadow:0 8px 25px rgba(90,65,45,.08);
+}
+
+h1,h2,h3{
+  margin-top:0;
+}
+
+h1{
+  font-size:clamp(30px,7vw,52px);
+  line-height:1;
+}
+
+h2{
+  font-size:25px;
+}
+
+h3{
+  font-size:18px;
+}
+
+p{
+  line-height:1.6;
+}
+
+.muted{
+  color:#806f63;
+}
+
+.small{
+  font-size:13px;
+}
+
+.btn{
+  padding:13px 18px;
+  border-radius:14px;
+  font-weight:700;
+  transition:.15s;
+}
+
+.btn:active{
+  transform:scale(.97);
+}
+
+.btn-primary{
+  background:#604b3e;
+  color:white;
+}
+
+.btn-secondary{
+  background:#eadccd;
+  color:#493b32;
+}
+
+.btn-success{
+  background:#54795d;
+  color:white;
+}
+
+.btn-danger{
+  background:#a9564f;
+  color:white;
+}
+
+.btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+input,
+select{
+  width:100%;
+  padding:13px;
+  border:1px solid #dccbb9;
+  border-radius:12px;
+  background:#fffdf9;
+  outline:none;
+}
+
+input:focus,
+select:focus{
+  border-color:#9d806a;
+}
+
+label{
+  display:block;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.field{
+  margin-bottom:15px;
+}
+
+/* =========================
+   START SCREEN
+========================= */
+
+.start-wrap{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.start-card{
+  width:min(680px,100%);
+  text-align:center;
+  padding:35px 25px;
+}
+
+.logo{
+  width:80px;
+  height:80px;
+  margin:0 auto 20px;
+  border-radius:24px;
+  background:#604b3e;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:38px;
+}
+
+.start-card h1{
+  margin-bottom:10px;
+}
+
+.tagline{
+  color:#806f63;
+  margin-bottom:30px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:12px;
+  text-align:left;
+}
+
+@media(max-width:650px){
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:15px;
+  flex-wrap:wrap;
+}
+
+.brand{
+  font-weight:900;
+  font-size:20px;
+}
+
+.status-pill{
+  background:#eadccd;
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:700;
+}
+
+/* =========================
+   CASE
+========================= */
+
+.case-card{
+  background:#604b3e;
+  color:white;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:15px;
+}
+
+.case-label{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  opacity:.7;
+}
+
+.case-card h2{
+  margin:5px 0 10px;
+}
+
+.task-box{
+  margin-top:15px;
+  background:rgba(255,255,255,.12);
+  padding:14px;
+  border-radius:14px;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.workspace-layout{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:15px;
+}
+
+@media(max-width:800px){
+  .workspace-layout{
+    grid-template-columns:1fr;
+  }
+}
+
+/* =========================
+   KIT
+========================= */
+
+.kit-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.kit-item{
+  border:1px solid #e1d1c0;
+  background:#fffdf9;
+  border-radius:14px;
+  padding:11px;
+  font-size:13px;
+}
+
+.kit-item strong{
+  display:block;
+  margin-bottom:3px;
+}
+
+/* =========================
+   TOOLBOX
+========================= */
+
+.toolbox{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.tool{
+  background:#f0e4d6;
+  border-radius:13px;
+  padding:11px 5px;
+  text-align:center;
+  font-weight:700;
+  font-size:12px;
+}
+
+.tool:active{
+  transform:scale(.96);
+}
+
+/* =========================
+   SVG
+========================= */
+
+.workspace{
+  background:#fdfbf7;
+  border:1px solid #e0d1c1;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+}
+
+#circuitSvg{
+  width:100%;
+  height:520px;
+  display:block;
+  touch-action:none;
+  background-image:
+    linear-gradient(#eee3d7 1px,transparent 1px),
+    linear-gradient(90deg,#eee3d7 1px,transparent 1px);
+  background-size:25px 25px;
+}
+
+@media(max-width:600px){
+  #circuitSvg{
+    height:450px;
+  }
+}
+
+.component{
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+.component:active{
+  cursor:grabbing;
+}
+
+.terminal{
+  fill:#604b3e;
+  stroke:white;
+  stroke-width:2;
+  cursor:pointer;
+}
+
+.terminal.selected{
+  fill:#c17d48;
+}
+
+.component-label{
+  font-size:12px;
+  font-weight:700;
+  fill:#342d29;
+  pointer-events:none;
+}
+
+.wire{
+  stroke:#604b3e;
+  stroke-width:5;
+  stroke-linecap:round;
+  cursor:pointer;
+}
+
+.wire:hover{
+  stroke:#a9564f;
+}
+
+.grid-note{
+  position:absolute;
+  left:10px;
+  bottom:10px;
+  background:rgba(255,250,243,.9);
+  padding:7px 10px;
+  border-radius:10px;
+  font-size:11px;
+  color:#806f63;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.action-row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.action-row .btn{
+  flex:1;
+  min-width:120px;
+}
+
+/* =========================
+   MEASUREMENTS
+========================= */
+
+.measure-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.measure{
+  background:#f3e9de;
+  border-radius:15px;
+  padding:13px;
+}
+
+.measure span{
+  display:block;
+  font-size:12px;
+  color:#806f63;
+}
+
+.measure strong{
+  display:block;
+  margin-top:5px;
+  font-size:20px;
+}
+
+@media(max-width:600px){
+  .measure-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+/* =========================
+   DIAGNOSIS
+========================= */
+
+.diagnosis{
+  margin-top:15px;
+  padding:17px;
+  border-radius:16px;
+  background:#f1e7db;
+}
+
+.diagnosis.success{
+  background:#e4efe5;
+}
+
+.diagnosis.error{
+  background:#f5e2df;
+}
+
+.diagnosis h3{
+  margin-bottom:5px;
+}
+
+/* =========================
+   MISSION
+========================= */
+
+.mission{
+  margin-top:15px;
+  border:2px dashed #c6ad96;
+  border-radius:18px;
+  padding:17px;
+  background:#fffaf3;
+}
+
+.mission-title{
+  font-weight:900;
+  margin-bottom:7px;
+}
+
+/* =========================
+   HISTORY
+========================= */
+
+.history-item{
+  border-left:4px solid #9d806a;
+  padding:9px 12px;
+  margin-bottom:9px;
+  background:#faf3eb;
+  border-radius:0 12px 12px 0;
+}
+
+/* =========================
+   REPORT
+========================= */
+
+.question{
+  background:#fffdf9;
+  border:1px solid #e2d5c8;
+  border-radius:17px;
+  padding:16px;
+  margin-bottom:13px;
+}
+
+.question-number{
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.option{
+  display:block;
+  padding:11px;
+  border:1px solid #dfd0c0;
+  border-radius:11px;
+  margin:7px 0;
+  cursor:pointer;
+  font-weight:normal;
+}
+
+.option:hover{
+  background:#f5ece2;
+}
+
+.option input{
+  width:auto;
+  margin-right:8px;
+}
+
+/* =========================
+   SCORE
+========================= */
+
+.score-box{
+  text-align:center;
+  padding:25px;
+}
+
+.big-score{
+  font-size:65px;
+  font-weight:900;
+  margin:10px 0;
+}
+
+.score-breakdown{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.score-part{
+  background:#f1e6da;
+  padding:17px;
+  border-radius:16px;
+}
+
+.score-part strong{
+  display:block;
+  font-size:30px;
+}
+
+/* =========================
+   NOTIFICATION
+========================= */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:20px;
+  transform:translateX(-50%);
+  background:#342d29;
+  color:white;
+  padding:12px 18px;
+  border-radius:13px;
+  z-index:9999;
+  max-width:90%;
+  text-align:center;
+  box-shadow:0 8px 30px rgba(0,0,0,.2);
+}
+
+.warning{
+  background:#fff0db;
+  border:1px solid #e1bd8e;
+  padding:12px;
+  border-radius:13px;
+  margin-bottom:12px;
+  font-size:13px;
+}
+
+/* =========================
+   PRINT
+========================= */
+
+@media print{
+  .no-print{
+    display:none!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     NETLIFY FORM
+========================================================= -->
+
+<form
+  name="circuit-engineer"
+  method="POST"
+  data-netlify="true"
+  hidden
+>
+  <input type="hidden" name="form-name" value="circuit-engineer">
+  <input name="student-name">
+  <input name="class">
+  <input name="student-number">
+  <input name="case-code">
+  <input name="case-title">
+  <input name="initial-problem">
+  <input name="initial-result">
+  <input name="final-result">
+  <input name="project-score">
+  <input name="report-score">
+  <input name="total-score">
+  <input name="tab-switches">
+  <input name="answers">
+  <input name="submitted-at">
+</form>
+
+
+<!-- =========================================================
+     START SCREEN
+========================================================= -->
+
+<section id="startScreen" class="screen">
+  <div class="start-wrap">
+    <div class="card start-card">
+
+      <div class="logo">⚡</div>
+
+      <h1>DC Circuit<br>Engineer</h1>
+
+      <p class="tagline">
+        Bukan sekadar menyusun kabel.<br>
+        Kamu harus membuat rangkaian yang bekerja.
+      </p>
+
+      <div class="form-grid">
+
+        <div class="field">
+          <label>Nama lengkap</label>
+          <input id="studentName" placeholder="Tulis nama kamu">
+        </div>
+
+        <div class="field">
+          <label>Kelas</label>
+          <input id="studentClass" placeholder="XI">
+        </div>
+
+        <div class="field">
+          <label>No. Absen</label>
+          <input id="studentNumber" type="number" min="1" placeholder="01">
+        </div>
+
+      </div>
+
+      <div class="warning">
+        💡 <strong>Challenge:</strong>
+        Kamu akan mendapatkan satu situasi berbeda.
+        Buat rangkaianmu, uji, temukan masalahnya, lalu perbaiki.
+      </div>
+
+      <button class="btn btn-primary" style="width:100%" onclick="startProject()">
+        Mulai Project ⚡
+      </button>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================================================
+     PROJECT SCREEN
+========================================================= -->
+
+<section id="projectScreen" class="screen hidden">
+
+  <div class="container">
+
+    <div class="topbar no-print">
+      <div class="brand">⚡ DC Circuit Engineer</div>
+
+      <div class="status-pill">
+        Perubahan tab: <span id="tabCount">0</span>
+      </div>
+    </div>
+
+
+    <!-- CASE -->
+
+    <div class="case-card">
+
+      <div class="case-label">Situasi yang kamu dapatkan</div>
+
+      <h2 id="caseTitle">—</h2>
+
+      <p id="caseSituation">—</p>
+
+      <div class="task-box">
+        <strong>🎯 Tantangan:</strong>
+        <div id="caseTask" style="margin-top:5px"></div>
+      </div>
+
+    </div>
+
+
+    <div class="workspace-layout">
+
+      <!-- LEFT -->
+
+      <aside>
+
+        <div class="card">
+
+          <h3>🧰 Starter Kit</h3>
+
+          <div class="kit-grid" id="kitList"></div>
+
+          <p class="small muted">
+            Baterai 12 V sudah tersedia.
+            Komponen lain bisa kamu gunakan sesuai kebutuhan.
+          </p>
+
+        </div>
+
+        <div class="card" style="margin-top:15px">
+
+          <h3>🛠️ Komponen</h3>
+
+          <div class="toolbox">
+
+            <button class="tool" onclick="addComponent('lamp')">
+              💡 Lampu
+            </button>
+
+            <button class="tool" onclick="addComponent('resistor')">
+              ▰ Resistor
+            </button>
+
+            <button class="tool" onclick="addComponent('switch')">
+              🔘 Saklar
+            </button>
+
+            <button class="tool" onclick="addComponent('ammeter')">
+              A Ammeter
+            </button>
+
+            <button class="tool" onclick="addComponent('voltmeter')">
+              V Voltmeter
+            </button>
+
+            <button class="tool" onclick="deleteSelected()">
+              🗑 Hapus
+            </button>
+
+          </div>
+
+          <p class="small muted">
+            Cara membuat rangkaian:
+            <br>
+            1. Geser komponen.
+            <br>
+            2. Klik terminal A.
+            <br>
+            3. Klik terminal B.
+            <br>
+            4. Kabel akan terbentuk.
+          </p>
+
+        </div>
+
+      </aside>
+
+
+      <!-- RIGHT -->
+
+      <main>
+
+        <div class="card">
+
+          <h3>🔧 Build Your Circuit</h3>
+
+          <div class="workspace">
+
+            <svg
+              id="circuitSvg"
+              viewBox="0 0 800 520"
+              preserveAspectRatio="xMidYMid meet"
+            >
+
+              <g id="wireLayer"></g>
+
+              <g id="componentLayer"></g>
+
+            </svg>
+
+            <div class="grid-note">
+              Tap terminal → tap terminal lain = kabel
+            </div>
+
+          </div>
+
+          <div class="action-row no-print">
+
+            <button
+              id="runButton"
+              class="btn btn-primary"
+              onclick="runCircuit('initial')"
+            >
+              ▶ Jalankan Rangkaian
+            </button>
+
+            <button
+              class="btn btn-secondary"
+              onclick="clearSelection()"
+            >
+              Lepas Pilihan
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- MEASUREMENT -->
+
+        <div class="card" style="margin-top:15px">
+
+          <h3>📊 Hasil Pengukuran</h3>
+
+          <div class="measure-grid">
+
+            <div class="measure">
+              <span>Tegangan sumber</span>
+              <strong id="mVoltage">—</strong>
+            </div>
+
+            <div class="measure">
+              <span>Arus total</span>
+              <strong id="mCurrent">—</strong>
+            </div>
+
+            <div class="measure">
+              <span>Hambatan total</span>
+              <strong id="mResistance">—</strong>
+            </div>
+
+            <div class="measure">
+              <span>Status</span>
+              <strong id="mStatus">—</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- DIAGNOSIS -->
+
+        <div
+          id="diagnosisSection"
+          class="card hidden"
+          style="margin-top:15px"
+        >
+
+          <div id="diagnosisBox" class="diagnosis">
+
+            <h3 id="diagnosisTitle">Diagnosis</h3>
+
+            <div id="diagnosisText"></div>
+
+          </div>
+
+        </div>
+
+
+        <!-- MISSION -->
+
+        <div
+          id="missionSection"
+          class="card hidden"
+          style="margin-top:15px"
+        >
+
+          <div class="mission">
+
+            <div class="mission-title">
+              🧪 Engineering Mission
+            </div>
+
+            <div id="missionText"></div>
+
+            <div
+              id="stressResult"
+              class="small"
+              style="margin-top:10px"
+            ></div>
+
+          </div>
+
+          <div class="action-row">
+
+            <button
+              class="btn btn-success"
+              onclick="runCircuit('mission')"
+            >
+              🧪 Uji Mission
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- FINAL -->
+
+        <div
+          id="finalSection"
+          class="card hidden"
+          style="margin-top:15px"
+        >
+
+          <h3>🏁 Final Test</h3>
+
+          <p id="finalInstruction">
+            Setelah memperbaiki rangkaianmu, jalankan final test.
+          </p>
+
+          <button
+            class="btn btn-primary"
+            onclick="runCircuit('final')"
+          >
+            ⚡ Final Test
+          </button>
+
+        </div>
+
+
+        <!-- HISTORY -->
+
+        <div class="card" style="margin-top:15px">
+
+          <h3>📋 Run History</h3>
+
+          <div id="runHistory">
+            <p class="small muted">
+              Belum ada pengujian.
+            </p>
+          </div>
+
+        </div>
+
+
+        <!-- REPORT -->
+
+        <div
+          id="reportSection"
+          class="card hidden"
+          style="margin-top:15px"
+        >
+
+          <h2>📝 Project Report</h2>
+
+          <p class="muted">
+            Jawab berdasarkan proses yang baru saja kamu lakukan.
+          </p>
+
+          <div id="reportQuestions"></div>
+
+          <button
+            class="btn btn-success"
+            style="width:100%"
+            onclick="submitAssessment()"
+          >
+            Kirim Project & Lihat Nilai
+          </button>
+
+        </div>
+
+
+        <!-- SCORE -->
+
+        <div
+          id="scoreSection"
+          class="card hidden"
+          style="margin-top:15px"
+        >
+
+          <div class="score-box">
+
+            <h2>🎉 Project Selesai</h2>
+
+            <div class="big-score" id="totalScore">
+              0
+            </div>
+
+            <p>Nilai Akhir</p>
+
+            <div class="score-breakdown">
+
+              <div class="score-part">
+                <span>Project</span>
+                <strong id="projectScore">0/60</strong>
+              </div>
+
+              <div class="score-part">
+                <span>Report</span>
+                <strong id="reportScore">0/40</strong>
+              </div>
+
+            </div>
+
+            <p
+              id="submissionStatus"
+              class="muted"
+              style="margin-top:20px"
+            >
+              Menyimpan hasil...
+            </p>
+
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<div id="toast" class="toast hidden"></div>
+
+
+<script>
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let currentCase = null;
+
+let components = [];
+let wires = [];
+
+let selectedComponent = null;
+let selectedTerminal = null;
+
+let componentCounter = 0;
+
+let initialResult = null;
+let finalResult = null;
+let initialProblem = null;
+let currentMission = null;
+
+let initialRunDone = false;
+let missionSolved = false;
+let finalTestDone = false;
+
+let runHistory = [];
+
+let tabSwitches = 0;
+
+let reportQuestions = [];
+
+let projectScore = 0;
+let reportScore = 0;
+
+
+/* =========================================================
+   DRAG STATE
+========================================================= */
+
+let draggingComponent = false;
+let dragPointerId = null;
+
+let dragStartPointerX = 0;
+let dragStartPointerY = 0;
+
+let dragStartComponentX = 0;
+let dragStartComponentY = 0;
+
+
+/* =========================================================
+   CASES
+========================================================= */
+
+const CASES = [
+
+{
+  code:"C01",
+  title:"Lampu Meja Belajar Terlalu Terang",
+  situation:"Lampu meja belajar menyala sangat terang sehingga terasa tidak nyaman.",
+  task:"Atur rangkaian agar arus total mendekati 0,50 A.",
+  mode:"currentHigh",
+  targetCurrent:0.50,
+  kit:{lamps:1,resistors:[5]}
+},
+
+{
+  code:"C02",
+  title:"Lampu Meja Belajar Terlalu Redup",
+  situation:"Lampu meja belajar hanya menyala redup.",
+  task:"Ubah rangkaian agar arus total mendekati 0,40 A.",
+  mode:"currentLow",
+  targetCurrent:0.40,
+  kit:{lamps:1,resistors:[50]}
+},
+
+{
+  code:"C03",
+  title:"Lampu Kamar Ikut Mati",
+  situation:"Saat satu lampu dimatikan atau dilepas, lampu lain ikut mati.",
+  task:"Buat agar kedua lampu dapat tetap bekerja ketika salah satunya dilepas.",
+  mode:"independence",
+  kit:{lamps:2,resistors:[]}
+},
+
+{
+  code:"C04",
+  title:"Lampu Meja Gaming",
+  situation:"Ada dua lampu dekorasi pada meja. Salah satu lampu harus dapat dilepas tanpa mematikan lampu lainnya.",
+  task:"Buat rangkaian yang tetap bekerja ketika salah satu lampu dilepas.",
+  mode:"independence",
+  kit:{lamps:2,resistors:[10]}
+},
+
+{
+  code:"C05",
+  title:"Sudut Charger di Meja Belajar",
+  situation:"Dua perangkat menggunakan sumber tegangan yang sama.",
+  task:"Buat rangkaian dan amati hubungan arus total dengan arus pada masing-masing bagian.",
+  mode:"measurement",
+  kit:{lamps:2,resistors:[20,20]}
+},
+
+{
+  code:"C06",
+  title:"Lampu Sepeda Malam Hari",
+  situation:"Lampu depan dan lampu belakang sepeda harus dapat bekerja secara mandiri.",
+  task:"Pastikan satu lampu tetap dapat menyala ketika lampu lainnya dilepas.",
+  mode:"independence",
+  kit:{lamps:2,resistors:[10]}
+},
+
+{
+  code:"C07",
+  title:"Lampu Kelas",
+  situation:"Tiga lampu digunakan untuk menerangi ruang kelas.",
+  task:"Buat agar jika satu lampu bermasalah, lampu lainnya tetap dapat bekerja.",
+  mode:"independence",
+  kit:{lamps:3,resistors:[]}
+},
+
+{
+  code:"C08",
+  title:"Bel Sekolah Terlalu Lemah",
+  situation:"Bel listrik mendapat arus terlalu kecil sehingga bunyinya lemah.",
+  task:"Atur rangkaian agar arus mendekati 0,60 A.",
+  mode:"currentLow",
+  targetCurrent:0.60,
+  kit:{lamps:1,resistors:[10]}
+},
+
+{
+  code:"C09",
+  title:"Lampu Teras Terlalu Boros",
+  situation:"Lampu teras menggunakan arus terlalu besar.",
+  task:"Kurangi arus total hingga mendekati 0,50 A.",
+  mode:"currentHigh",
+  targetCurrent:0.50,
+  kit:{lamps:1,resistors:[5]}
+},
+
+{
+  code:"C10",
+  title:"Lampu Kamar dan Lampu Baca",
+  situation:"Lampu kamar dan lampu baca digunakan pada satu sumber.",
+  task:"Buat agar lampu baca tetap dapat digunakan meskipun lampu kamar dilepas.",
+  mode:"independence",
+  kit:{lamps:2,resistors:[10]}
+},
+
+{
+  code:"C11",
+  title:"Mini Audio Setup",
+  situation:"Dua perangkat pada mini audio setup membutuhkan sumber listrik yang sama.",
+  task:"Buat rangkaian sehingga satu perangkat tidak mematikan perangkat lainnya.",
+  mode:"independence",
+  kit:{lamps:2,resistors:[20]}
+},
+
+{
+  code:"C12",
+  title:"Mini PC di Meja",
+  situation:"Beberapa beban digunakan pada satu meja kerja.",
+  task:"Susun rangkaian dan pastikan masing-masing beban tetap mendapatkan jalur listrik.",
+  mode:"independence",
+  kit:{lamps:3,resistors:[10,20]}
+},
+
+{
+  code:"C13",
+  title:"Baterai Cepat Habis",
+  situation:"Baterai terasa cepat habis karena arus total terlalu besar.",
+  task:"Kurangi arus total hingga mendekati 0,60 A.",
+  mode:"currentHigh",
+  targetCurrent:0.60,
+  kit:{lamps:1,resistors:[5]}
+},
+
+{
+  code:"C14",
+  title:"Lampu Sepeda Depan-Belakang",
+  situation:"Lampu depan dan belakang harus tetap berfungsi secara mandiri.",
+  task:"Lepas salah satu lampu dan pastikan lampu lainnya masih mempunyai jalur listrik.",
+  mode:"independence",
+  kit:{lamps:2,resistors:[10]}
+},
+
+{
+  code:"C15",
+  title:"Lampu Ruang Baca",
+  situation:"Tiga lampu digunakan pada ruang baca.",
+  task:"Jika salah satu lampu dilepas, dua lampu lainnya harus tetap bekerja.",
+  mode:"independence",
+  kit:{lamps:3,resistors:[10]}
+},
+
+{
+  code:"C16",
+  title:"Lampu Kantin",
+  situation:"Dua lampu digunakan untuk menerangi kantin.",
+  task:"Buat agar kerusakan salah satu lampu tidak membuat lampu lainnya ikut mati.",
+  mode:"independence",
+  kit:{lamps:2,resistors:[20]}
+},
+
+{
+  code:"C17",
+  title:"Resistor Lampu Belajar Terlalu Membatasi Arus",
+  situation:"Sebuah resistor membuat arus lampu terlalu kecil.",
+  task:"Atur rangkaian agar arus mendekati 0,40 A.",
+  mode:"currentLow",
+  targetCurrent:0.40,
+  kit:{lamps:1,resistors:[50]}
+},
+
+{
+  code:"C18",
+  title:"Senter Tiba-Tiba Sangat Terang",
+  situation:"Arus pada rangkaian senter terlalu besar.",
+  task:"Atur rangkaian sehingga arus mendekati 0,50 A.",
+  mode:"currentHigh",
+  targetCurrent:0.50,
+  kit:{lamps:1,resistors:[5]}
+},
+
+{
+  code:"C19",
+  title:"Eksperimen Dua Resistor",
+  situation:"Kamu memiliki dua resistor dengan nilai 6 Ω dan 12 Ω.",
+  task:"Susun keduanya sehingga hambatan total menjadi sebesar mungkin.",
+  mode:"maxResistance",
+  kit:{lamps:0,resistors:[6,12]}
+},
+
+{
+  code:"C20",
+  title:"Final Boss — Setup Meja Belajar",
+  situation:"Sebuah meja belajar memiliki beberapa perangkat listrik.",
+  task:"Gunakan minimal 2 lampu dan 2 resistor. Buat rangkaian yang valid, lampu tetap independen, dan arus total berada antara 0,25–0,75 A.",
+  mode:"finalBoss",
+  kit:{lamps:2,resistors:[10,10,20]}
+}
+
+];
+
+
+/* =========================================================
+   UTILITY
+========================================================= */
+
+function $(id){
+  return document.getElementById(id);
+}
+
+function uid(){
+  componentCounter++;
+  return "c" + componentCounter;
+}
+
+function toast(message){
+
+  const el=$("toast");
+
+  el.textContent=message;
+  el.classList.remove("hidden");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer=setTimeout(()=>{
+    el.classList.add("hidden");
+  },2500);
+}
+
+function clamp(value,min,max){
+  return Math.max(min,Math.min(max,value));
+}
+
+function distance(a,b){
+  return Math.sqrt(
+    Math.pow(a.x-b.x,2)+
+    Math.pow(a.y-b.y,2)
+  );
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+function startProject(){
+
+  const name=$("studentName").value.trim();
+  const cls=$("studentClass").value.trim();
+  const number=$("studentNumber").value.trim();
+
+  if(!name || !cls || !number){
+
+    toast("Lengkapi nama, kelas, dan nomor absen dulu.");
+
+    return;
+  }
+
+  currentCase=
+    CASES[Math.floor(Math.random()*CASES.length)];
+
+  $("caseTitle").textContent=currentCase.title;
+  $("caseSituation").textContent=currentCase.situation;
+  $("caseTask").textContent=currentCase.task;
+
+  renderKit();
+
+  $("startScreen").classList.add("hidden");
+  $("projectScreen").classList.remove("hidden");
+
+  resetCircuit();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  toast("Project dimulai. Buat rangkaianmu!");
+}
+
+
+/* =========================================================
+   KIT
+========================================================= */
+
+function renderKit(){
+
+  const kit=currentCase.kit;
+
+  let html="";
+
+  html+=`
+    <div class="kit-item">
+      <strong>🔋 Baterai</strong>
+      12 V
+    </div>
+  `;
+
+  if(kit.lamps){
+
+    html+=`
+      <div class="kit-item">
+        <strong>💡 Lampu</strong>
+        × ${kit.lamps}
+      </div>
+    `;
+  }
+
+  if(kit.resistors && kit.resistors.length){
+
+    html+=`
+      <div class="kit-item">
+        <strong>▰ Resistor</strong>
+        ${kit.resistors.map(x=>x+" Ω").join(", ")}
+      </div>
+    `;
+  }
+
+  html+=`
+    <div class="kit-item">
+      <strong>🔘 Saklar</strong>
+      tersedia
+    </div>
+
+    <div class="kit-item">
+      <strong>A Ammeter</strong>
+      tersedia
+    </div>
+
+    <div class="kit-item">
+      <strong>V Voltmeter</strong>
+      tersedia
+    </div>
+  `;
+
+  $("kitList").innerHTML=html;
+}
+
+
+/* =========================================================
+   RESET CIRCUIT
+========================================================= */
+
+function resetCircuit(){
+
+  components=[];
+  wires=[];
+  selectedComponent=null;
+  selectedTerminal=null;
+  componentCounter=0;
+
+  initialResult=null;
+  finalResult=null;
+  initialProblem=null;
+  currentMission=null;
+
+  initialRunDone=false;
+  missionSolved=false;
+  finalTestDone=false;
+
+  runHistory=[];
+
+  $("diagnosisSection").classList.add("hidden");
+  $("missionSection").classList.add("hidden");
+  $("finalSection").classList.add("hidden");
+  $("reportSection").classList.add("hidden");
+  $("scoreSection").classList.add("hidden");
+
+  $("runHistory").innerHTML=`
+    <p class="small muted">
+      Belum ada pengujian.
+    </p>
+  `;
+
+  $("mVoltage").textContent="—";
+  $("mCurrent").textContent="—";
+  $("mResistance").textContent="—";
+  $("mStatus").textContent="—";
+
+  /*
+    Battery selalu disediakan.
+    Posisi tetap, tidak dapat digeser.
+  */
+
+  components.push({
+    id:uid(),
+    type:"battery",
+    x:100,
+    y:260,
+    value:12,
+    fixed:true
+  });
+
+  render();
+}
+
+
+/* =========================================================
+   ADD COMPONENT
+========================================================= */
+
+function addComponent(type){
+
+  let x=300;
+  let y=150;
+
+  const existing=components.filter(c=>c.type!== "battery");
+
+  x+=
+    (existing.length%3)*150;
+
+  y+=
+    Math.floor(existing.length/3)*100;
+
+  y=clamp(y,80,430);
+
+  let value=null;
+
+  if(type==="resistor"){
+
+    const used=components
+      .filter(c=>c.type==="resistor")
+      .map(c=>c.value);
+
+    const available=
+      currentCase?.kit?.resistors || [];
+
+    value=
+      available.find(v=>!used.includes(v))
+      || available[used.length]
+      || 10;
+  }
+
+  const c={
+    id:uid(),
+    type,
+    x:clamp(x,180,700),
+    y,
+    value,
+    on:true
+  };
+
+  components.push(c);
+
+  render();
+
+  toast(getComponentName(c)+" ditambahkan.");
+}
+
+
+/* =========================================================
+   COMPONENT NAME
+========================================================= */
+
+function getComponentName(c){
+
+  const names={
+    battery:"Baterai",
+    lamp:"Lampu",
+    resistor:"Resistor",
+    switch:"Saklar",
+    ammeter:"Ammeter",
+    voltmeter:"Voltmeter"
+  };
+
+  return names[c.type] || "Komponen";
+}
+
+
+/* =========================================================
+   COMPONENT TERMINALS
+========================================================= */
+
+function getTerminalPosition(componentId,terminal){
+
+  const c=
+    components.find(x=>x.id===componentId);
+
+  if(!c) return null;
+
+  const gap=42;
+
+  if(terminal==="A"){
+    return {
+      x:c.x-gap,
+      y:c.y
+    };
+  }
+
+  if(terminal==="B"){
+    return {
+      x:c.x+gap,
+      y:c.y
+    };
+  }
+
+  return null;
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(){
+
+  renderWires();
+
+  const layer=$("componentLayer");
+
+  layer.innerHTML="";
+
+  components.forEach(c=>{
+    drawComponent(c,layer);
+  });
+}
+
+
+/* =========================================================
+   DRAW COMPONENT
+========================================================= */
+
+function drawComponent(c,layer){
+
+  const g=document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "g"
+  );
+
+  g.classList.add("component");
+
+  g.dataset.id=c.id;
+
+  g.setAttribute(
+    "transform",
+    `translate(${c.x},${c.y})`
+  );
+
+  /*
+    IMPORTANT:
+    Tidak ada render() pada pointermove.
+    Kalau render() dipanggil ketika drag,
+    SVG element dibuat ulang dan drag di HP putus.
+  */
+
+  if(c.type==="battery"){
+
+    const body=document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "rect"
+    );
+
+    body.setAttribute("x",-28);
+    body.setAttribute("y",-35);
+    body.setAttribute("width",56);
+    body.setAttribute("height",70);
+    body.setAttribute("rx",10);
+
+    body.setAttribute("fill","#d8c1a8");
+    body.setAttribute("stroke","#604b3e");
+    body.setAttribute("stroke-width","2");
+
+    g.appendChild(body);
+
+    const plus=document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "text"
+    );
+
+    plus.textContent="+ 12V";
+    plus.setAttribute("x",-18);
+    plus.setAttribute("y",-5);
+    plus.setAttribute("class","component-label");
+
+    g.appendChild(plus);
+
+    const minus=document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "text"
+    );
+
+    minus.textContent="−";
+    minus.setAttribute("x",10);
+    minus.setAttribute("y",20);
+    minus.setAttribute("class","component-label");
+
+    g.appendChild(minus);
+
+    addTerminal(g,c,"A",-42,0);
+    addTerminal(g,c,"B",42,0);
+
+    /*
+      Battery tidak draggable.
+    */
+
+  }
+
+  else if(c.type==="lamp"){
+
+    const circle=document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "circle"
+    );
+
+    circle.setAttribute("cx",0);
+    circle.setAttribute("cy",0);
+    circle.setAttribute("r",27);
+    circle.setAttribute("fill","#f7d878");
+    circle.setAttribute("stroke","#604b3e");
+    circle.setAttribute("stroke-width","3");
+
+    g.appendChild(circle);
+
+    const cross=document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "path"
+    );
+
+    cross.setAttribute(
+      "d",
+      "M -10 -10 L 10 10 M 10 -10 L -10 10"
+    );
+
+    cross.setAttribute(
+      "stroke","#604b3e"
+    );
+
+    cross.setAttribute(
+      "stroke-width","3"
+    );
+
+    g.appendChild(cross);
+
+    addLabel(g,c,"💡");
+
+    addTerminal(g,c,"A",-42,0);
+    addTerminal(g,c,"B",42,0);
+  }
+
+  else if(c.type==="resistor"){
+
+    const rect=document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "rect"
+    );
+
+    rect.setAttribute("x",-30);
+    rect.setAttribute("y",-16);
+    rect.setAttribute("width",60);
+    rect.setAttribute("height",32);
+    rect.setAttribute("rx",5);
+
+    rect.setAttribute(
+      "fill","#e5d7c7"
+    );
+
+    rect.setAttribute(
+      "stroke","#604b3e"
+    );
+
+    rect.setAttribute(
+      "stroke-width","2"
+    );
+
+    g.appendChild(rect);
+
+    const text=document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "text"
+    );
+
+    text.textContent=c.value+"Ω";
+
+    text.setAttribute("x",0);
+    text.setAttribute("y",5);
+    text.setAttribute("text-anchor","middle");
+
+    text.setAttribute(
+      "class","component-label"
+    );
+
+    g.appendChild(text);
+
+    addTerminal(g,c,"A",-42,0);
+    addTerminal(g,c,"B",42,0);
+  }
+
+  else if(c.type==="switch"){
+
+    const line=document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "line"
+    );
+
+    line.setAttribute("x1",-30);
+    line.setAttribute("y1",0);
+    line.setAttribute("x2",c.on?25:10);
+    line.setAttribute("y2",c.on?0:-20);
+
+    line.setAttribute(
+      "stroke","#604b3e"
+    );
+
+    line.setAttribute(
+      "stroke-width","5"
+    );
+
+    g.appendChild(line);
+
+    const base=document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "line"
+    );
+
+    base.setAttribute("x1",-30);
+    base.setAttribute("y1",0);
+    base.setAttribute("x2",30);
+    base.setAttribute("y2",0);
+
+    base.setAttribute(
+      "stroke","#604b3e"
+    );
+
+    base.setAttribute(
+      "stroke-width","2"
+    );
+
+    g.appendChild(base);
+
+    addLabel(
+      g,
+      c,
+      c.on?"ON":"OFF",
+      0,
+      35
+    );
+
+    addTerminal(g,c,"A",-42,0);
+    addTerminal(g,c,"B",42,0);
+
+    /*
+      Saklar:
+      tap = toggle
+      drag = tetap bisa dengan gesture
+    */
+
+    g.addEventListener(
+      "click",
+      e=>{
+        if(!draggingComponent){
+
+          c.on=!c.on;
+
+          render();
+
+          toast(
+            "Saklar: "+(c.on?"ON":"OFF")
+          );
+        }
+      }
+    );
+  }
+
+  else if(c.type==="ammeter"){
+
+    const circle=document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "circle"
+    );
+
+    circle.setAttribute("cx",0);
+    circle.setAttribute("cy",0);
+    circle.setAttribute("r",25);
+
+    circle.setAttribute(
+      "fill","#e6ddd3"
+    );
+
+    circle.setAttribute(
+      "stroke","#604b3e"
+    );
+
+    circle.setAttribute(
+      "stroke-width","3"
+    );
+
+    g.appendChild(circle);
+
+    addLabel(g,c,"A");
+
+    addTerminal(g,c,"A",-42,0);
+    addTerminal(g,c,"B",42,0);
+  }
+
+  else if(c.type==="voltmeter"){
+
+    const circle=document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "circle"
+    );
+
+    circle.setAttribute("cx",0);
+    circle.setAttribute("cy",0);
+    circle.setAttribute("r",25);
+
+    circle.setAttribute(
+      "fill","#e6ddd3"
+    );
+
+    circle.setAttribute(
+      "stroke","#604b3e"
+    );
+
+    circle.setAttribute(
+      "stroke-width","3"
+    );
+
+    g.appendChild(circle);
+
+    addLabel(g,c,"V");
+
+    addTerminal(g,c,"A",-42,0);
+    addTerminal(g,c,"B",42,0);
+  }
+
+  /*
+    Select component.
+  */
+
+  g.addEventListener(
+    "pointerdown",
+    e=>{
+
+      if(
+        e.target.classList &&
+        e.target.classList.contains("terminal")
+      ){
+        return;
+      }
+
+      /*
+        Battery tidak bisa digeser.
+      */
+
+      if(c.type==="battery"){
+        return;
+      }
+
+      selectedComponent=c.id;
+
+      draggingComponent=true;
+
+      dragPointerId=e.pointerId;
+
+      const p=
+        svgPointFromEvent(e);
+
+      dragStartPointerX=p.x;
+      dragStartPointerY=p.y;
+
+      dragStartComponentX=c.x;
+      dragStartComponentY=c.y;
+
+      try{
+        g.setPointerCapture(e.pointerId);
+      }catch(err){}
+
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  );
+
+  g.addEventListener(
+    "pointermove",
+    e=>{
+
+      if(
+        !draggingComponent ||
+        e.pointerId!==dragPointerId
+      ){
+        return;
+      }
+
+      const p=
+        svgPointFromEvent(e);
+
+      const dx=
+        p.x-dragStartPointerX;
+
+      const dy=
+        p.y-dragStartPointerY;
+
+      c.x=
+        clamp(
+          dragStartComponentX+dx,
+          55,
+          745
+        );
+
+      c.y=
+        clamp(
+          dragStartComponentY+dy,
+          55,
+          465
+        );
+
+      /*
+        Hanya ubah transform.
+        Jangan render ulang.
+      */
+
+      g.setAttribute(
+        "transform",
+        `translate(${c.x},${c.y})`
+      );
+
+      updateWirePositions();
+
+      e.preventDefault();
+    }
+  );
+
+  const finishDrag=e=>{
+
+    if(
+      !draggingComponent ||
+      e.pointerId!==dragPointerId
+    ){
+      return;
+    }
+
+    draggingComponent=false;
+    dragPointerId=null;
+
+    try{
+      g.releasePointerCapture(e.pointerId);
+    }catch(err){}
+
+    render();
+  };
+
+  g.addEventListener(
+    "pointerup",
+    finishDrag
+  );
+
+  g.addEventListener(
+    "pointercancel",
+    finishDrag
+  );
+
+  layer.appendChild(g);
+}
+
+
+/* =========================================================
+   ADD LABEL
+========================================================= */
+
+function addLabel(g,c,text,x=0,y=5){
+
+  const label=document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "text"
+  );
+
+  label.textContent=text;
+
+  label.setAttribute("x",x);
+  label.setAttribute("y",y);
+
+  label.setAttribute(
+    "text-anchor",
+    "middle"
+  );
+
+  label.setAttribute(
+    "class",
+    "component-label"
+  );
+
+  g.appendChild(label);
+}
+
+
+/* =========================================================
+   ADD TERMINAL
+========================================================= */
+
+function addTerminal(g,c,name,x,y){
+
+  const terminal=document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "circle"
+  );
+
+  terminal.setAttribute("cx",x);
+  terminal.setAttribute("cy",y);
+  terminal.setAttribute("r",7);
+
+  terminal.classList.add("terminal");
+
+  if(
+    selectedTerminal &&
+    selectedTerminal.componentId===c.id &&
+    selectedTerminal.terminal===name
+  ){
+    terminal.classList.add("selected");
+  }
+
+  terminal.addEventListener(
+    "pointerdown",
+    e=>{
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      handleTerminalClick(
+        c.id,
+        name
+      );
+    }
+  );
+
+  g.appendChild(terminal);
+}
+
+
+/* =========================================================
+   SVG POINTER POSITION
+========================================================= */
+
+function svgPointFromEvent(e){
+
+  const svg=$("circuitSvg");
+
+  const rect=
+    svg.getBoundingClientRect();
+
+  const vb=
+    svg.viewBox.baseVal;
+
+  return {
+    x:
+      (e.clientX-rect.left)*
+      vb.width/rect.width,
+
+    y:
+      (e.clientY-rect.top)*
+      vb.height/rect.height
+  };
+}
+
+
+/* =========================================================
+   TERMINAL CLICK
+========================================================= */
+
+function handleTerminalClick(
+  componentId,
+  terminal
+){
+
+  if(!selectedTerminal){
+
+    selectedTerminal={
+      componentId,
+      terminal
+    };
+
+    render();
+
+    toast("Terminal pertama dipilih.");
+
+    return;
+  }
+
+  if(
+    selectedTerminal.componentId===componentId &&
+    selectedTerminal.terminal===terminal
+  ){
+
+    selectedTerminal=null;
+
+    render();
+
+    return;
+  }
+
+  /*
+    Cegah menghubungkan terminal yang sama.
+  */
+
+  const duplicate=
+    wires.some(w=>
+      (
+        w.a.componentId===selectedTerminal.componentId &&
+        w.a.terminal===selectedTerminal.terminal &&
+        w.b.componentId===componentId &&
+        w.b.terminal===terminal
+      )
+      ||
+      (
+        w.b.componentId===selectedTerminal.componentId &&
+        w.b.terminal===selectedTerminal.terminal &&
+        w.a.componentId===componentId &&
+        w.a.terminal===terminal
+      )
+    );
+
+  if(duplicate){
+
+    toast("Kabel tersebut sudah ada.");
+
+    selectedTerminal=null;
+
+    render();
+
+    return;
+  }
+
+  wires.push({
+    a:{
+      componentId:selectedTerminal.componentId,
+      terminal:selectedTerminal.terminal
+    },
+    b:{
+      componentId,
+      terminal
+    }
+  });
+
+  selectedTerminal=null;
+
+  render();
+
+  toast("Kabel terhubung ⚡");
+}
+
+
+/* =========================================================
+   RENDER WIRES
+========================================================= */
+
+function renderWires(){
+
+  const layer=$("wireLayer");
+
+  layer.innerHTML="";
+
+  wires.forEach((w,index)=>{
+
+    const a=
+      getTerminalPosition(
+        w.a.componentId,
+        w.a.terminal
+      );
+
+    const b=
+      getTerminalPosition(
+        w.b.componentId,
+        w.b.terminal
+      );
+
+    if(!a || !b) return;
+
+    const line=document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "line"
+    );
+
+    line.classList.add("wire");
+
+    line.dataset.index=index;
+
+    line.setAttribute("x1",a.x);
+    line.setAttribute("y1",a.y);
+
+    line.setAttribute("x2",b.x);
+    line.setAttribute("y2",b.y);
+
+    line.addEventListener(
+      "pointerdown",
+      e=>{
+
+        e.stopPropagation();
+
+        wires.splice(index,1);
+
+        render();
+
+        toast("Kabel dilepas.");
+      }
+    );
+
+    layer.appendChild(line);
+  });
+}
+
+
+/* =========================================================
+   UPDATE WIRE POSITIONS DURING DRAG
+========================================================= */
+
+function updateWirePositions(){
+
+  const wireElements=
+    document.querySelectorAll(
+      "#wireLayer .wire"
+    );
+
+  wires.forEach((w,index)=>{
+
+    const line=wireElements[index];
+
+    if(!line) return;
+
+    const a=
+      getTerminalPosition(
+        w.a.componentId,
+        w.a.terminal
+      );
+
+    const b=
+      getTerminalPosition(
+        w.b.componentId,
+        w.b.terminal
+      );
+
+    if(!a || !b) return;
+
+    line.setAttribute("x1",a.x);
+    line.setAttribute("y1",a.y);
+
+    line.setAttribute("x2",b.x);
+    line.setAttribute("y2",b.y);
+  });
+}
+
+
+/* =========================================================
+   DELETE SELECTED
+========================================================= */
+
+function deleteSelected(){
+
+  if(!selectedComponent){
+
+    toast("Pilih komponen dulu.");
+
+    return;
+  }
+
+  const c=
+    components.find(
+      x=>x.id===selectedComponent
+    );
+
+  if(!c) return;
+
+  if(c.type==="battery"){
+
+    toast("Baterai 12 V adalah starter kit dan tidak dapat dihapus.");
+
+    selectedComponent=null;
+
+    return;
+  }
+
+  /*
+    Hapus kabel yang terhubung.
+  */
+
+  wires=
+    wires.filter(w=>
+      w.a.componentId!==c.id &&
+      w.b.componentId!==c.id
+    );
+
+  components=
+    components.filter(
+      x=>x.id!==c.id
+    );
+
+  selectedComponent=null;
+
+  render();
+
+  toast("Komponen dihapus.");
+}
+
+
+/* =========================================================
+   CLEAR SELECTION
+========================================================= */
+
+function clearSelection(){
+
+  selectedComponent=null;
+  selectedTerminal=null;
+
+  render();
+}
+
+
+/* =========================================================
+   ELECTRICAL GRAPH
+========================================================= */
+
+function buildElectricalGraph(){
+
+  const parent={};
+
+  function find(x){
+
+    if(parent[x]===undefined){
+      parent[x]=x;
+    }
+
+    if(parent[x]!==x){
+      parent[x]=find(parent[x]);
+    }
+
+    return parent[x];
+  }
+
+  function union(a,b){
+
+    const ra=find(a);
+    const rb=find(b);
+
+    if(ra!==rb){
+      parent[rb]=ra;
+    }
+  }
+
+  components.forEach(c=>{
+    parent[c.id+":A"]=
+      c.id+":A";
+
+    parent[c.id+":B"]=
+      c.id+":B";
+  });
+
+  wires.forEach(w=>{
+
+    union(
+      w.a.componentId+":"+w.a.terminal,
+      w.b.componentId+":"+w.b.terminal
+    );
+  });
+
+  const nodes={};
+
+  components.forEach(c=>{
+
+    const a=find(c.id+":A");
+    const b=find(c.id+":B");
+
+    nodes[c.id]={
+      A:a,
+      B:b
+    };
+  });
+
+  return {
+    parent,
+    find,
+    nodes
+  };
+}
+
+
+/* =========================================================
+   GAUSSIAN SOLVER
+========================================================= */
+
+function solveLinear(A,b){
+
+  const n=b.length;
+
+  for(let i=0;i<n;i++){
+
+    let maxRow=i;
+
+    for(let r=i+1;r<n;r++){
+
+      if(
+        Math.abs(A[r][i])>
+        Math.abs(A[maxRow][i])
+      ){
+        maxRow=r;
+      }
+    }
+
+    if(
+      Math.abs(A[maxRow][i])<1e-12
+    ){
+      return null;
+    }
+
+    [
+      A[i],
+      A[maxRow]
+    ]=[
+      A[maxRow],
+      A[i]
+    ];
+
+    [
+      b[i],
+      b[maxRow]
+    ]=[
+      b[maxRow],
+      b[i]
+    ];
+
+    const pivot=A[i][i];
+
+    for(let j=i;j<n;j++){
+      A[i][j]/=pivot;
+    }
+
+    b[i]/=pivot;
+
+    for(let r=0;r<n;r++){
+
+      if(r===i) continue;
+
+      const factor=A[r][i];
+
+      if(Math.abs(factor)<1e-15)
+        continue;
+
+      for(let j=i;j<n;j++){
+        A[r][j]-=
+          factor*A[i][j];
+      }
+
+      b[r]-=
+        factor*b[i];
+    }
+  }
+
+  return b;
+}
+
+
+/* =========================================================
+   RESISTANCE
+========================================================= */
+
+function getResistance(c){
+
+  if(c.type==="lamp")
+    return 10;
+
+  if(c.type==="resistor")
+    return Number(c.value)||10;
+
+  if(c.type==="ammeter")
+    return .01;
+
+  if(c.type==="voltmeter")
+    return 1000000;
+
+  if(c.type==="switch")
+    return c.on?.01:1000000000;
+
+  return null;
+}
+
+
+/* =========================================================
+   SOLVE CIRCUIT
+========================================================= */
+
+function solveCircuit(
+  comps=components,
+  ws=wires
+){
+
+  const battery=
+    comps.find(c=>c.type==="battery");
+
+  if(!battery){
+
+    return {
+      valid:false,
+      error:"Baterai tidak ditemukan."
+    };
+  }
+
+  /*
+    Build graph for arbitrary component set.
+  */
+
+  const parent={};
+
+  function find(x){
+
+    if(parent[x]===undefined){
+      parent[x]=x;
+    }
+
+    if(parent[x]!==x){
+      parent[x]=find(parent[x]);
+    }
+
+    return parent[x];
+  }
+
+  function union(a,b){
+
+    const ra=find(a);
+    const rb=find(b);
+
+    if(ra!==rb)
+      parent[rb]=ra;
+  }
+
+  comps.forEach(c=>{
+
+    parent[c.id+":A"]=
+      c.id+":A";
+
+    parent[c.id+":B"]=
+      c.id+":B";
+  });
+
+  ws.forEach(w=>{
+
+    if(
+      !parent[w.a.componentId+":"+w.a.terminal] ||
+      !parent[w.b.componentId+":"+w.b.terminal]
+    ){
+      return;
+    }
+
+    union(
+      w.a.componentId+":"+w.a.terminal,
+      w.b.componentId+":"+w.b.terminal
+    );
+  });
+
+  /*
+    Identify nodes.
+  */
+
+  const nodesByRoot={};
+
+  comps.forEach(c=>{
+
+    const na=find(c.id+":A");
+    const nb=find(c.id+":B");
+
+    nodesByRoot[na]=true;
+    nodesByRoot[nb]=true;
+  });
+
+  const batteryA=
+    find(battery.id+":A");
+
+  const batteryB=
+    find(battery.id+":B");
+
+  /*
+    Short circuit:
+    both battery terminals same node.
+  */
+
+  if(batteryA===batteryB){
+
+    return {
+      valid:false,
+      error:"Kedua terminal baterai terhubung langsung menjadi satu node. Ini adalah short circuit."
+    };
+  }
+
+  /*
+    Only nodes other than batteryB
+    become unknown voltages.
+  */
+
+  const roots=
+    Object.keys(nodesByRoot)
+      .filter(r=>r!==batteryB);
+
+  const index={};
+
+  roots.forEach((r,i)=>{
+    index[r]=i;
+  });
+
+  const n=roots.length;
+
+  if(n===0){
+
+    return {
+      valid:false,
+      error:"Rangkaian belum membentuk jaringan listrik."
+    };
+  }
+
+  const A=
+    Array.from(
+      {length:n},
+      ()=>Array(n).fill(0)
+    );
+
+  const b=
+    Array(n).fill(0);
+
+  const voltageSource=12;
+
+  /*
+    Each passive component becomes a conductance.
+  */
+
+  const branches=[];
+
+  comps.forEach(c=>{
+
+    if(c.type==="battery")
+      return;
+
+    const r=getResistance(c);
+
+    if(!r || !isFinite(r))
+      return;
+
+    const na=find(c.id+":A");
+    const nb=find(c.id+":B");
+
+    branches.push({
+      component:c,
+      nodeA:na,
+      nodeB:nb,
+      R:r
+    });
+
+    const G=1/r;
+
+    /*
+      Node A equation
+    */
+
+    if(na!==batteryB){
+
+      const ia=index[na];
+
+      A[ia][ia]+=G;
+
+      if(nb!==batteryB){
+
+        const ib=index[nb];
+
+        A[ia][ib]-=G;
+
+      }else{
+
+        /*
+          Vb = 0
+        */
+
+      }
+
+    }
+
+    /*
+      Node B equation
+    */
+
+    if(nb!==batteryB){
+
+      const ib=index[nb];
+
+      A[ib][ib]+=G;
+
+      if(na!==batteryB){
+
+        const ia=index[na];
+
+        A[ib][ia]-=G;
+
+      }else{
+
+        /*
+          Va = 12V
+        */
+
+        b[ib]+=G*voltageSource;
+      }
+    }
+  });
+
+  /*
+    If battery positive node is ground-relative
+    we need set its voltage to 12.
+    Since batteryA is unknown, this happens through
+    current equation only if connected.
+  */
+
+  if(index[batteryA]!==undefined){
+
+    /*
+      A battery source is represented by fixed voltage.
+      We enforce batteryA = 12V using equation replacement.
+    */
+
+    const k=index[batteryA];
+
+    for(let j=0;j<n;j++){
+      A[k][j]=0;
+    }
+
+    A[k][k]=1;
+
+    b[k]=12;
+  }
+
+  const voltages=
+    solveLinear(
+      A.map(row=>row.slice()),
+      b.slice()
+    );
+
+  if(!voltages){
+
+    return {
+      valid:false,
+      error:"Rangkaian tidak dapat dihitung. Periksa sambungan kabel dan posisi komponen."
+    };
+  }
+
+  const nodeVoltage={};
+
+  roots.forEach((root,i)=>{
+    nodeVoltage[root]=voltages[i];
+  });
+
+  nodeVoltage[batteryB]=0;
+
+  /*
+    Calculate branch currents.
+  */
+
+  branches.forEach(branch=>{
+
+    const va=
+      nodeVoltage[branch.nodeA] ?? 0;
+
+    const vb=
+      nodeVoltage[branch.nodeB] ?? 0;
+
+    branch.V=
+      va-vb;
+
+    branch.I=
+      branch.V/branch.R;
+  });
+
+  /*
+    Current leaving battery positive terminal.
+  */
+
+  let totalCurrent=0;
+
+  branches.forEach(branch=>{
+
+    if(branch.nodeA===batteryA){
+
+      totalCurrent+=branch.I;
+
+    }else if(branch.nodeB===batteryA){
+
+      totalCurrent-=branch.I;
+    }
+  });
+
+  totalCurrent=Math.abs(totalCurrent);
+
+  /*
+    Detect no useful current.
+  */
+
+  if(totalCurrent<0.000001){
+
+    return {
+      valid:false,
+      error:"Rangkaian belum membentuk jalur tertutup dari baterai melalui beban dan kembali ke baterai."
+    };
+  }
+
+  const rTotal=
+    voltageSource/totalCurrent;
+
+  const componentResults={};
+
+  branches.forEach(branch=>{
+
+    componentResults[
+      branch.component.id
+    ]={
+      voltage:Math.abs(branch.V),
+      current:Math.abs(branch.I),
+      resistance:branch.R
+    };
+  });
+
+  return {
+    valid:true,
+    voltage:12,
+    current:totalCurrent,
+    resistance:rTotal,
+    components:componentResults,
+    branches
+  };
+}
+
+
+/* =========================================================
+   RUN CIRCUIT
+========================================================= */
+
+function runCircuit(mode){
+
+  const result=
+    solveCircuit();
+
+  updateMeasurements(result);
+
+  addRunHistory(
+    mode,
+    result
+  );
+
+  if(mode==="initial"){
+
+    initialResult=result;
+    initialRunDone=true;
+
+    initialProblem=
+      determineInitialProblem(result);
+
+    showDiagnosis(initialProblem);
+
+    /*
+      If invalid:
+      the error itself becomes problem.
+    */
+
+    if(!result.valid){
+
+      currentMission={
+        kind:"studentError",
+        title:"Perbaiki masalah pada rangkaian",
+        text:
+          result.error+
+          " Perbaiki rangkaian sampai dapat bekerja."
+      };
+
+      showMission(currentMission);
+
+      projectScore=10;
+
+      $("finalSection")
+        .classList.add("hidden");
+
+    }
+
+    /*
+      If valid:
+      generate challenge.
+    */
+
+    else{
+
+      currentMission=
+        generateCaseProblem(
+          result,
+          currentCase
+        );
+
+      showMission(currentMission);
+
+      projectScore=10;
+    }
+
+    return;
+  }
+
+
+  if(mode==="mission"){
+
+    if(!initialRunDone){
+
+      toast("Jalankan rangkaian awal terlebih dahulu.");
+
+      return;
+    }
+
+    /*
+      If student currently has an error,
+      error becomes diagnosis.
+    */
+
+    if(!result.valid){
+
+      missionSolved=false;
+
+      showDiagnosis({
+        kind:"studentError",
+        title:"Masalah baru ditemukan",
+        text:result.error
+      });
+
+      $("stressResult").innerHTML=
+        "❌ Rangkaianmu sekarang mengalami masalah. Perbaiki dulu.";
+
+      return;
+    }
+
+    /*
+      If initial problem was student error,
+      mission is solved when current circuit valid.
+    */
+
+    if(
+      initialProblem &&
+      initialProblem.kind==="studentError"
+    ){
+
+      missionSolved=true;
+
+      $("stressResult").innerHTML=
+        "✅ Error awal sudah berhasil diperbaiki.";
+
+      projectScore=
+        Math.max(projectScore,30);
+
+      showDiagnosis({
+        kind:"success",
+        title:"Rangkaian sudah kembali bekerja",
+        text:
+          "Sekarang lanjutkan pengujian final."
+      });
+
+      $("finalSection")
+        .classList.remove("hidden");
+
+      return;
+    }
+
+    const evaluation=
+      evaluateMission(
+        result,
+        currentCase
+      );
+
+    missionSolved=evaluation.solved;
+
+    $("stressResult").innerHTML=
+      evaluation.text;
+
+    if(missionSolved){
+
+      projectScore=
+        Math.max(
+          projectScore,
+          50
+        );
+
+      showDiagnosis({
+        kind:"success",
+        title:"Mission berhasil! 🎉",
+        text:
+          evaluation.text+
+          " Sekarang lakukan Final Test."
+      });
+
+      $("finalSection")
+        .classList.remove("hidden");
+
+    }else{
+
+      projectScore=
+        Math.max(
+          projectScore,
+          30
+        );
+
+      showDiagnosis({
+        kind:"error",
+        title:"Belum berhasil",
+        text:
+          evaluation.text+
+          " Coba ubah rangkaianmu lalu uji lagi."
+      });
+    }
+
+    return;
+  }
+
+
+  if(mode==="final"){
+
+    if(!initialRunDone){
+
+      toast("Belum ada initial test.");
+
+      return;
+    }
+
+    finalResult=result;
+    finalTestDone=true;
+
+    if(!result.valid){
+
+      showDiagnosis({
+        kind:"error",
+        title:"Final Test gagal",
+        text:
+          result.error
+      });
+
+      projectScore=
+        Math.max(
+          projectScore,
+          30
+        );
+
+      return;
+    }
+
+    const finalEvaluation=
+      evaluateFinal(
+        result,
+        currentCase
+      );
+
+    if(finalEvaluation.solved){
+
+      projectScore=60;
+
+      missionSolved=true;
+
+      showDiagnosis({
+        kind:"success",
+        title:"Final Test berhasil! 🏆",
+        text:
+          finalEvaluation.text
+      });
+
+      $("reportSection")
+        .classList.remove("hidden");
+
+      createReport();
+
+      setTimeout(()=>{
+        $("reportSection").scrollIntoView({
+          behavior:"smooth"
+        });
+      },200);
+
+    }else{
+
+      projectScore=
+        Math.max(
+          projectScore,
+          50
+        );
+
+      showDiagnosis({
+        kind:"error",
+        title:"Final Test belum memenuhi misi",
+        text:
+          finalEvaluation.text
+      });
+    }
+  }
+}
+
+
+/* =========================================================
+   INITIAL PROBLEM
+========================================================= */
+
+function determineInitialProblem(result){
+
+  if(!result.valid){
+
+    return {
+      kind:"studentError",
+      title:"Masalah ditemukan pada rangkaianmu",
+      text:result.error
+    };
+  }
+
+  return generateCaseProblem(
+    result,
+    currentCase
+  );
+}
+
+
+/* =========================================================
+   GENERATE CASE PROBLEM
+========================================================= */
+
+function generateCaseProblem(
+  result,
+  caseData
+){
+
+  switch(caseData.mode){
+
+    case"currentHigh":
+
+      return {
+        kind:"challenge",
+        title:"Arus perlu dikendalikan",
+        text:
+          "Rangkaianmu berhasil bekerja. Sekarang ubah rangkaian agar arus total mendekati "+
+          caseData.targetCurrent.toFixed(2)+
+          " A."
+      };
+
+    case"currentLow":
+
+      return {
+        kind:"challenge",
+        title:"Arus perlu disesuaikan",
+        text:
+          "Rangkaianmu berhasil bekerja. Sekarang ubah rangkaian agar arus total mendekati "+
+          caseData.targetCurrent.toFixed(2)+
+          " A."
+      };
+
+    case"independence":
+
+      return {
+        kind:"stress",
+        title:"Uji ketahanan rangkaian",
+        text:
+          "Rangkaianmu bekerja. Sekarang kita akan melakukan stress test: salah satu lampu akan dilepas. Lampu lainnya harus tetap mempunyai jalur listrik."
+      };
+
+    case"measurement":
+
+      return {
+        kind:"measurement",
+        title:"Buktikan dengan pengukuran",
+        text:
+          "Rangkaianmu bekerja. Sekarang gunakan konsep pengukuran untuk menunjukkan hubungan arus total dan arus pada bagian rangkaian."
+      };
+
+    case"maxResistance":
+
+      return {
+        kind:"maxResistance",
+        title:"Cari hambatan maksimum",
+        text:
+          "Gunakan dua resistor yang tersedia. Susun keduanya agar hambatan total sebesar mungkin."
+      };
+
+    case"finalBoss":
+
+      return {
+        kind:"finalBoss",
+        title:"Final Boss",
+        text:
+          "Bangun setup yang memenuhi seluruh syarat pada situasi."
+      };
+
+    default:
+
+      return {
+        kind:"challenge",
+        title:"Engineering Challenge",
+        text:
+          "Buat rangkaian yang valid dan buktikan bahwa rangkaianmu bekerja."
+      };
+  }
+}
+
+
+/* =========================================================
+   EVALUATE MISSION
+========================================================= */
+
+function evaluateMission(
+  result,
+  caseData
+){
+
+  if(!result.valid){
+
+    return {
+      solved:false,
+      text:"Rangkaian mengalami error: "+result.error
+    };
+  }
+
+  switch(caseData.mode){
+
+    case"currentHigh":
+    case"currentLow":{
+
+      const diff=
+        Math.abs(
+          result.current-
+          caseData.targetCurrent
+        );
+
+      const solved=
+        diff<=0.05;
+
+      return {
+        solved,
+        text:
+          "Arus total = "+
+          result.current.toFixed(2)+
+          " A. Target = "+
+          caseData.targetCurrent.toFixed(2)+
+          " A. "+
+          (
+            solved
+            ?"Sudah berada dalam toleransi ±0,05 A."
+            :"Masih di luar toleransi ±0,05 A."
+          )
+      };
+    }
+
+
+    case"independence":{
+
+      const stress=
+        stressTestLampIndependence();
+
+      return {
+        solved:stress.solved,
+        text:stress.text
+      };
+    }
+
+
+    case"measurement":{
+
+      const lamps=
+        components.filter(
+          c=>c.type==="lamp"
+        );
+
+      if(lamps.length<2){
+
+        return {
+          solved:false,
+          text:
+            "Untuk challenge ini, gunakan minimal dua lampu agar hubungan arus dapat diamati."
+        };
+      }
+
+      return {
+        solved:true,
+        text:
+          "Rangkaian valid dengan "+
+          lamps.length+
+          " lampu. Data arus dapat digunakan untuk menganalisis pembagian arus."
+      };
+    }
+
+
+    case"maxResistance":{
+
+      const resistors=
+        components.filter(
+          c=>c.type==="resistor"
+        );
+
+      if(resistors.length<2){
+
+        return {
+          solved:false,
+          text:
+            "Gunakan dua resistor yang tersedia."
+        };
+      }
+
+      /*
+        For this mission, series is maximum.
+      */
+
+      const expected=
+        resistors
+          .slice(0,2)
+          .reduce(
+            (sum,c)=>sum+Number(c.value),
+            0
+          );
+
+      const tolerance=.1;
+
+      const solved=
+        Math.abs(
+          result.resistance-
+          expected
+        )<=tolerance;
+
+      return {
+        solved,
+        text:
+          "Hambatan total rangkaian = "+
+          result.resistance.toFixed(2)+
+          " Ω. Hambatan maksimum dari dua resistor adalah "+
+          expected.toFixed(2)+
+          " Ω."
+      };
+    }
+
+
+    case"finalBoss":
+
+      return evaluateFinal(
+        result,
+        caseData
+      );
+
+    default:
+
+      return {
+        solved:true,
+        text:"Rangkaian berhasil diuji."
+      };
+  }
+}
+
+
+/* =========================================================
+   FINAL EVALUATION
+========================================================= */
+
+function evaluateFinal(
+  result,
+  caseData
+){
+
+  if(!result.valid){
+
+    return {
+      solved:false,
+      text:result.error
+    };
+  }
+
+  if(caseData.mode==="independence"){
+
+    const stress=
+      stressTestLampIndependence();
+
+    return {
+      solved:stress.solved,
+      text:
+        stress.text
+    };
+  }
+
+  if(caseData.mode==="maxResistance"){
+
+    const resistors=
+      components.filter(
+        c=>c.type==="resistor"
+      );
+
+    if(resistors.length<2){
+
+      return {
+        solved:false,
+        text:"Dua resistor harus digunakan."
+      };
+    }
+
+    /*
+      Detect whether they are in series
+      by checking node between them.
+    */
+
+    const graph=
+      buildElectricalGraph();
+
+    const r1=resistors[0];
+    const r2=resistors[1];
+
+    const r1B=
+      graph.nodes[r1.id].B;
+
+    const r2A=
+      graph.nodes[r2.id].A;
+
+    const r1A=
+      graph.nodes[r1.id].A;
+
+    const r2B=
+      graph.nodes[r2.id].B;
+
+    const connectedInSeries=
+      r1B===r2A ||
+      r1A===r2B ||
+      r1A===r2A ||
+      r1B===r2B;
+
+    const expected=
+      Number(r1.value)+
+      Number(r2.value);
+
+    const solved=
+      connectedInSeries &&
+      Math.abs(
+        result.resistance-expected
+      )<0.2;
+
+    return {
+      solved,
+      text:
+        "Hambatan total = "+
+        result.resistance.toFixed(2)+
+        " Ω. Target maksimum = "+
+        expected.toFixed(2)+
+        " Ω."
+    };
+  }
+
+  if(caseData.mode==="finalBoss"){
+
+    const lamps=
+      components.filter(
+        c=>c.type==="lamp"
+      );
+
+    const resistors=
+      components.filter(
+        c=>c.type==="resistor"
+      );
+
+    if(lamps.length<2){
+
+      return {
+        solved:false,
+        text:"Gunakan minimal 2 lampu."
+      };
+    }
+
+    if(resistors.length<2){
+
+      return {
+        solved:false,
+        text:"Gunakan minimal 2 resistor."
+      };
+    }
+
+    if(
+      result.current<0.25 ||
+      result.current>0.75
+    ){
+
+      return {
+        solved:false,
+        text:
+          "Arus total harus berada antara 0,25–0,75 A. Arus sekarang "+
+          result.current.toFixed(2)+" A."
+      };
+    }
+
+    const stress=
+      stressTestLampIndependence();
+
+    if(!stress.solved){
+
+      return {
+        solved:false,
+        text:
+          "Rangkaian belum lolos uji independensi lampu. "+
+          stress.text
+      };
+    }
+
+    return {
+      solved:true,
+      text:
+        "Semua syarat Final Boss terpenuhi: minimal 2 lampu, 2 resistor, arus 0,25–0,75 A, dan lampu tetap independen."
+    };
+  }
+
+  /*
+    Current challenges.
+  */
+
+  if(
+    caseData.targetCurrent!==undefined
+  ){
+
+    const diff=
+      Math.abs(
+        result.current-
+        caseData.targetCurrent
+      );
+
+    return {
+      solved:diff<=0.05,
+      text:
+        "Arus total "+
+        result.current.toFixed(2)+
+        " A. Target "+
+        caseData.targetCurrent.toFixed(2)+
+        " A."
+    };
+  }
+
+  return {
+    solved:true,
+    text:"Rangkaian memenuhi misi."
+  };
+}
+
+
+/* =========================================================
+   STRESS TEST
+========================================================= */
+
+function stressTestLampIndependence(){
+
+  const lamps=
+    components.filter(
+      c=>c.type==="lamp"
+    );
+
+  if(lamps.length<2){
+
+    return {
+      solved:false,
+      text:
+        "Minimal dua lampu diperlukan untuk stress test."
+    };
+  }
+
+  const results=[];
+
+  /*
+    Remove each lamp one at a time.
+    Then solve the modified circuit.
+  */
+
+  for(const removedLamp of lamps){
+
+    const remaining=
+      components.filter(
+        c=>c.id!==removedLamp.id
+      );
+
+    const remainingIds=
+      new Set(
+        remaining.map(c=>c.id)
+      );
+
+    const modifiedWires=
+      wires.filter(w=>
+        remainingIds.has(
+          w.a.componentId
+        ) &&
+        remainingIds.has(
+          w.b.componentId
+        )
+      );
+
+    const result=
+      solveCircuit(
+        remaining,
+        modifiedWires
+      );
+
+    /*
+      Find whether at least one remaining lamp
+      receives meaningful current.
+    */
+
+    const remainingLamps=
+      remaining.filter(
+        c=>c.type==="lamp"
+      );
+
+    let lampWorking=false;
+
+    if(result.valid){
+
+      lampWorking=
+        remainingLamps.some(lamp=>{
+
+          const cr=
+            result.components[
+              lamp.id
+            ];
+
+          return cr &&
+            cr.current>0.001;
+        });
+    }
+
+    results.push({
+      removed:removedLamp,
+      valid:result.valid,
+      lampWorking,
+      result
+    });
+  }
+
+  const solved=
+    results.every(
+      x=>x.valid && x.lampWorking
+    );
+
+  if(solved){
+
+    return {
+      solved:true,
+      text:
+        "✅ Stress test berhasil. Setiap kali satu lampu dilepas, lampu lainnya tetap mendapatkan arus."
+    };
+  }
+
+  const failed=
+    results.find(
+      x=>!x.valid || !x.lampWorking
+    );
+
+  if(failed){
+
+    return {
+      solved:false,
+      text:
+        "❌ Saat "+
+        getComponentName(failed.removed)+
+        " dilepas, lampu lainnya tidak lagi bekerja. Rangkaian perlu diperbaiki."
+    };
+  }
+
+  return {
+    solved:false,
+    text:"Stress test belum berhasil."
+  };
+}
+
+
+/* =========================================================
+   DIAGNOSIS UI
+========================================================= */
+
+function showDiagnosis(data){
+
+  $("diagnosisSection")
+    .classList.remove("hidden");
+
+  const box=
+    $("diagnosisBox");
+
+  box.className="diagnosis";
+
+  if(data.kind==="success"){
+    box.classList.add("success");
+  }
+
+  if(
+    data.kind==="studentError" ||
+    data.kind==="challenge"
+  ){
+    box.classList.add("error");
+  }
+
+  $("diagnosisTitle").textContent=
+    data.title;
+
+  $("diagnosisText").textContent=
+    data.text;
+}
+
+
+/* =========================================================
+   MISSION UI
+========================================================= */
+
+function showMission(mission){
+
+  $("missionSection")
+    .classList.remove("hidden");
+
+  $("missionText").textContent=
+    mission.text;
+
+  $("stressResult").textContent="";
+}
+
+
+/* =========================================================
+   MEASUREMENTS
+========================================================= */
+
+function updateMeasurements(result){
+
+  $("mVoltage").textContent=
+    result.valid
+    ?result.voltage.toFixed(1)+" V"
+    :"—";
+
+  $("mCurrent").textContent=
+    result.valid
+    ?result.current.toFixed(3)+" A"
+    :"—";
+
+  $("mResistance").textContent=
+    result.valid
+    ?result.resistance.toFixed(2)+" Ω"
+    :"—";
+
+  $("mStatus").textContent=
+    result.valid
+    ?"VALID"
+    :"ERROR";
+}
+
+
+/* =========================================================
+   RUN HISTORY
+========================================================= */
+
+function addRunHistory(
+  mode,
+  result
+){
+
+  const time=
+    new Date().toLocaleTimeString(
+      "id-ID",
+      {
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    );
+
+  runHistory.push({
+    mode,
+    result,
+    time
+  });
+
+  renderRunHistory();
+}
+
+
+function renderRunHistory(){
+
+  if(!runHistory.length){
+
+    $("runHistory").innerHTML=
+      `<p class="small muted">Belum ada pengujian.</p>`;
+
+    return;
+  }
+
+  $("runHistory").innerHTML=
+    runHistory.map((run,i)=>{
+
+      let title="Test";
+
+      if(run.mode==="initial")
+        title="Initial Test";
+
+      if(run.mode==="mission")
+        title="Mission Test";
+
+      if(run.mode==="final")
+        title="Final Test";
+
+      return `
+        <div class="history-item">
+          <strong>${i+1}. ${title}</strong>
+          <div class="small muted">
+            ${run.time}
+          </div>
+          <div style="margin-top:4px">
+            ${
+              run.result.valid
+              ?
+              `✅ ${run.result.current.toFixed(3)} A · ${run.result.resistance.toFixed(2)} Ω`
+              :
+              `❌ ${run.result.error}`
+            }
+          </div>
+        </div>
+      `;
+
+    }).join("");
+}
+
+
+/* =========================================================
+   REPORT QUESTION BANK
+========================================================= */
+
+const REPORT_BANK={
+
+maxResistance:[
+
+{
+q:"Jika dua resistor 6 Ω dan 12 Ω ingin menghasilkan hambatan total maksimum, bagaimana susunannya?",
+options:[
+"Disusun seri",
+"Disusun paralel",
+"Hanya menggunakan resistor 6 Ω",
+"Hanya menggunakan resistor 12 Ω"
+],
+answer:0
+},
+
+{
+q:"Berapakah hambatan total dua resistor 6 Ω dan 12 Ω jika disusun seri?",
+options:[
+"6 Ω",
+"12 Ω",
+"18 Ω",
+"72 Ω"
+],
+answer:2
+},
+
+{
+q:"Jika hambatan total 18 Ω dihubungkan ke baterai 12 V, berapakah arus totalnya?",
+options:[
+"0,33 A",
+"0,67 A",
+"1,5 A",
+"6 A"
+],
+answer:1
+},
+
+{
+q:"Pada rangkaian seri 6 Ω dan 12 Ω dengan sumber 12 V, berapakah tegangan pada resistor 6 Ω?",
+options:[
+"2 V",
+"4 V",
+"6 V",
+"8 V"
+],
+answer:1
+},
+
+{
+q:"Pada rangkaian yang sama, berapakah tegangan pada resistor 12 Ω?",
+options:[
+"4 V",
+"6 V",
+"8 V",
+"12 V"
+],
+answer:2
+}
+
+],
+
+independence:[
+
+{
+q:"Mengapa pada rangkaian yang berhasil dalam stress test, lampu lain tetap menyala ketika satu lampu dilepas?",
+options:[
+"Karena lampu lain mempunyai jalur listrik sendiri",
+"Karena tegangan baterai menjadi nol",
+"Karena arus tidak diperlukan",
+"Karena semua kabel terputus"
+],
+answer:0
+},
+
+{
+q:"Pada susunan dengan beberapa cabang, besaran yang sama pada setiap cabang adalah...",
+options:[
+"Arus",
+"Tegangan",
+"Hambatan total",
+"Daya total"
+],
+answer:1
+},
+
+{
+q:"Jika salah satu cabang dilepas tetapi cabang lain tetap bekerja, hal ini menunjukkan bahwa...",
+options:[
+"Setiap cabang memiliki jalur yang memungkinkan arusnya tetap mengalir",
+"Baterai tidak lagi digunakan",
+"Semua resistor menjadi nol",
+"Arus total pasti nol"
+],
+answer:0
+},
+
+{
+q:"Jika dua lampu identik dipasang pada cabang berbeda yang terhubung pada sumber yang sama, tegangan pada masing-masing cabang idealnya...",
+options:[
+"Sama",
+"Selalu nol",
+"Selalu berbeda dua kali lipat",
+"Tidak dapat dihitung"
+],
+answer:0
+},
+
+{
+q:"Apa tujuan utama stress test pada project ini?",
+options:[
+"Memastikan rangkaian tetap memenuhi fungsi ketika salah satu komponen diuji/dilepas",
+"Membuat baterai habis",
+"Menghapus semua kabel",
+"Mengubah nilai resistor"
+],
+answer:0
+}
+
+],
+
+measurement:[
+
+{
+q:"Hukum Ohm menyatakan hubungan antara...",
+options:[
+"Tegangan, arus, dan hambatan",
+"Massa, gaya, dan waktu",
+"Jarak, kecepatan, dan waktu",
+"Muatan, massa, dan suhu"
+],
+answer:0
+},
+
+{
+q:"Alat ukur yang dipasang untuk mengukur arus listrik adalah...",
+options:[
+"Voltmeter",
+"Ammeter",
+"Termometer",
+"Neraca"
+],
+answer:1
+},
+
+{
+q:"Alat ukur tegangan dipasang secara ideal...",
+options:[
+"Seri",
+"Paralel",
+"Tanpa kabel",
+"Hanya pada baterai yang mati"
+],
+answer:1
+},
+
+{
+q:"Jika tegangan tetap dan hambatan diperbesar, arus listrik akan...",
+options:[
+"Bertambah",
+"Berkurang",
+"Tetap selalu",
+"Menjadi tidak terhingga"
+],
+answer:1
+},
+
+{
+q:"Pada rangkaian bercabang, arus total berkaitan dengan arus cabang sebagai...",
+options:[
+"Arus total merupakan jumlah aljabar arus pada cabang",
+"Arus total selalu nol",
+"Arus cabang selalu lebih besar dari arus total",
+"Tidak ada hubungan"
+],
+answer:0
+}
+
+],
+
+default:[
+
+{
+q:"Menurut Hukum Ohm, jika tegangan tetap dan hambatan diperbesar, arus akan...",
+options:[
+"Bertambah",
+"Berkurang",
+"Tetap",
+"Menjadi nol selalu"
+],
+answer:1
+},
+
+{
+q:"Jika tegangan sumber 12 V dan hambatan total 20 Ω, arus total adalah...",
+options:[
+"0,2 A",
+"0,4 A",
+"0,6 A",
+"2,0 A"
+],
+answer:2
+},
+
+{
+q:"Pada rangkaian seri, arus yang melalui komponen-komponen ideal adalah...",
+options:[
+"Sama",
+"Selalu berbeda",
+"Selalu nol",
+"Tidak dapat diketahui"
+],
+answer:0
+},
+
+{
+q:"Jika sebuah lampu mempunyai hambatan 10 Ω dan diberi tegangan 12 V, arus idealnya adalah...",
+options:[
+"0,83 A",
+"1,2 A",
+"10 A",
+"120 A"
+],
+answer:1
+},
+
+{
+q:"Tujuan utama melakukan pengujian rangkaian sebelum menyimpulkan hasil adalah...",
+options:[
+"Memastikan rangkaian benar-benar bekerja dan memperoleh data",
+"Membuat rangkaian terlihat rumit",
+"Menghapus komponen",
+"Menghindari pengukuran"
+],
+answer:0
+}
+
+]
+
+};
+
+
+/* =========================================================
+   SHUFFLE
+========================================================= */
+
+function shuffle(array){
+
+  const arr=[...array];
+
+  for(
+    let i=arr.length-1;
+    i>0;
+    i--
+  ){
+
+    const j=
+      Math.floor(
+        Math.random()*(i+1)
+      );
+
+    [
+      arr[i],
+      arr[j]
+    ]=[
+      arr[j],
+      arr[i]
+    ];
+  }
+
+  return arr;
+}
+
+
+/* =========================================================
+   CREATE REPORT
+========================================================= */
+
+function createReport(){
+
+  let bank=
+    REPORT_BANK[
+      currentCase.mode
+    ] ||
+    REPORT_BANK.default;
+
+  /*
+    Create a fresh copy.
+  */
+
+  reportQuestions=
+    shuffle(
+      bank.map(q=>({
+        q:q.q,
+        options:shuffle(
+          q.options.map(
+            (text,index)=>({
+              text,
+              originalIndex:index
+            })
+          )
+        ),
+        originalAnswer:q.answer
+      }))
+    );
+
+  /*
+    Determine shuffled correct answer.
+  */
+
+  reportQuestions.forEach(q=>{
+
+    q.answer=
+      q.options.findIndex(
+        o=>
+          o.originalIndex===
+          q.originalAnswer
+      );
+  });
+
+  renderReport();
+}
+
+
+/* =========================================================
+   RENDER REPORT
+========================================================= */
+
+function renderReport(){
+
+  $("reportQuestions").innerHTML=
+    reportQuestions.map(
+      (q,i)=>{
+
+        return `
+          <div class="question">
+
+            <div class="question-number">
+              ${i+1}. ${q.q}
+            </div>
+
+            ${
+              q.options.map(
+                (opt,j)=>`
+                  <label class="option">
+
+                    <input
+                      type="radio"
+                      name="q${i}"
+                      value="${j}"
+                    >
+
+                    ${String.fromCharCode(65+j)}.
+                    ${opt.text}
+
+                  </label>
+                `
+              ).join("")
+            }
+
+          </div>
+        `;
+
+      }
+    ).join("");
+}
+
+
+/* =========================================================
+   CALCULATE REPORT
+========================================================= */
+
+function calculateReport(){
+
+  let correct=0;
+
+  const answers=[];
+
+  reportQuestions.forEach((q,i)=>{
+
+    const selected=
+      document.querySelector(
+        `input[name="q${i}"]:checked`
+      );
+
+    if(!selected){
+
+      answers.push({
+        question:i+1,
+        answer:null,
+        correct:false
+      });
+
+      return;
+    }
+
+    const answer=
+      Number(selected.value);
+
+    const isCorrect=
+      answer===q.answer;
+
+    if(isCorrect)
+      correct++;
+
+    answers.push({
+      question:i+1,
+      answer,
+      correct:isCorrect
+    });
+  });
+
+  reportScore=
+    correct*8;
+
+  return {
+    correct,
+    answers
+  };
+}
+
+
+/* =========================================================
+   SUBMIT
+========================================================= */
+
+async function submitAssessment(){
+
+  const unanswered=
+    reportQuestions.some(
+      (q,i)=>
+        !document.querySelector(
+          `input[name="q${i}"]:checked`
+        )
+    );
+
+  if(unanswered){
+
+    toast("Jawab semua pertanyaan report dulu.");
+
+    return;
+  }
+
+  if(!finalTestDone){
+
+    toast("Final Test belum selesai.");
+
+    return;
+  }
+
+  const report=
+    calculateReport();
+
+  const total=
+    projectScore+
+    reportScore;
+
+  $("projectScore").textContent=
+    projectScore+"/60";
+
+  $("reportScore").textContent=
+    reportScore+"/40";
+
+  $("totalScore").textContent=
+    total;
+
+  $("scoreSection")
+    .classList.remove("hidden");
+
+  $("reportSection")
+    .classList.add("hidden");
+
+  $("submissionStatus").textContent=
+    "Mengirim hasil...";
+
+  const data=new URLSearchParams();
+
+  data.append(
+    "form-name",
+    "circuit-engineer"
+  );
+
+  data.append(
+    "student-name",
+    $("studentName").value.trim()
+  );
+
+  data.append(
+    "class",
+    $("studentClass").value.trim()
+  );
+
+  data.append(
+    "student-number",
+    $("studentNumber").value.trim()
+  );
+
+  data.append(
+    "case-code",
+    currentCase.code
+  );
+
+  data.append(
+    "case-title",
+    currentCase.title
+  );
+
+  data.append(
+    "initial-problem",
+    initialProblem
+      ?initialProblem.text
+      :""
+  );
+
+  data.append(
+    "initial-result",
+    initialResult
+      ?JSON.stringify(initialResult)
+      :""
+  );
+
+  data.append(
+    "final-result",
+    finalResult
+      ?JSON.stringify(finalResult)
+      :""
+  );
+
+  data.append(
+    "project-score",
+    projectScore
+  );
+
+  data.append(
+    "report-score",
+    reportScore
+  );
+
+  data.append(
+    "total-score",
+    total
+  );
+
+  data.append(
+    "tab-switches",
+    tabSwitches
+  );
+
+  data.append(
+    "answers",
+    JSON.stringify(report.answers)
+  );
+
+  data.append(
+    "submitted-at",
+    new Date().toISOString()
+  );
+
+  try{
+
+    const response=
+      await fetch(
+        "/",
+        {
+          method:"POST",
+          headers:{
+            "Content-Type":
+              "application/x-www-form-urlencoded"
+          },
+          body:data.toString()
+        }
+      );
+
+    if(response.ok){
+
+      $("submissionStatus").textContent=
+        "✅ Hasil berhasil dikirim ke guru.";
+
+    }else{
+
+      $("submissionStatus").textContent=
+        "⚠️ Nilai sudah dihitung, tetapi pengiriman ke server gagal.";
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    $("submissionStatus").textContent=
+      "⚠️ Nilai sudah dihitung, tetapi koneksi ke server gagal.";
+  }
+
+  setTimeout(()=>{
+
+    $("scoreSection").scrollIntoView({
+      behavior:"smooth"
+    });
+
+  },200);
+}
+
+
+/* =========================================================
+   TAB MONITORING
+========================================================= */
+
+document.addEventListener(
+  "visibilitychange",
+  ()=>{
+
+    if(document.hidden){
+
+      tabSwitches++;
+
+      $("tabCount").textContent=
+        tabSwitches;
+    }
+  }
+);
+
+
+/* =========================================================
+   BEFORE LEAVE
+========================================================= */
+
+window.addEventListener(
+  "beforeunload",
+  e=>{
+
+    if(
+      !$("projectScreen").classList.contains("hidden") &&
+      $("scoreSection").classList.contains("hidden")
+    ){
+
+      e.preventDefault();
+
+      e.returnValue="";
+    }
+  }
+);
+
+
+/* =========================================================
+   CLICK SVG BACKGROUND
+========================================================= */
+
+$("circuitSvg").addEventListener(
+  "pointerdown",
+  e=>{
+
+    if(
+      e.target===
+      $("circuitSvg")
+    ){
+
+      selectedComponent=null;
+      selectedTerminal=null;
+
+      render();
+    }
+  }
+);
+
+
+/* =========================================================
+   INITIAL
+========================================================= */
+
+console.log(
+  "DC Circuit Engineer loaded."
+);
+
+</script>
+
+</body>
+</html>
